@@ -112,9 +112,10 @@ points:
         rowpin: P1
       anchor:
         ref: matrix_index_bottom
-        shift: [0, -dy]
+        shift: [dx, -dy]
       columns:
         secondary.rows.spot:
+          splay: -12
           origin: [-cx / 2, -cy / 2]
           colpin: P9
           bind: [0, 1, 0, 0]
@@ -152,14 +153,14 @@ points:
     reset_button:
       anchor:
         ref: matrix_index_top
-        shift: [-3, cy / 2 + 5]
+        shift: [-3, cy / 2 + 6]
       key:
         tags: [reset, component]
 
     power_button:
       anchor:
         ref: matrix_inner_home
-        shift: [-3, cy / 2 + 5.05 + 0.6dy]
+        shift: [-3, cy / 2 + 6.05 + 0.6dy]
       key:
         tags: [power, component]
 
@@ -178,7 +179,7 @@ points:
     screw_top_middle:
       anchor:
         ref: matrix_middle_top
-        shift: [hdx - 3, hdy - 3]
+        shift: [1.5dx - 3, hdy - 3]
       key:
         tags: [screw, hardware]
     screw_bottom_middle:
@@ -189,14 +190,14 @@ points:
         tags: [screw, hardware]
     screw_top_right:
       anchor:
-        ref: matrix_middle_top
-        shift: [2.5dx, hdy - 3]
+        ref: battery
+        shift: [15 - 3, 18 + 3]
       key:
         tags: [screw, hardware]
     screw_bottom_right:
       anchor:
         ref: thumb_reachy_spot
-        shift: [hdx - 1, hdy - 2]
+        shift: [-hdx - 2, hdy]
       key:
         tags: [screw, hardware]
 
@@ -220,7 +221,7 @@ outlines:
         - ref: matrix_pinky_bottom
           shift: [-hdx -dx - pf, -hdy - pf]
         - ref: matrix_pinky_bottom
-          shift: [2.5dx - pf, -hdy - pf]
+          shift: [3.5dx - pf, -hdy - pf]
         - ref: thumb_secondary_spot
           shift: [-hdx - pf, -hdy - pf]
         - ref: thumb_secondary_spot
@@ -229,13 +230,31 @@ outlines:
           shift: [-hdx, -hdy - pf]
         - ref: thumb_reachy_spot
           shift: [hdx + pf, -hdy - pf]
+        - ref: thumb_reachy_spot
+          shift: [hdx + pf, hdy + pf]
+        - ref: thumb_reachy_spot
+          shift: [-hdx - pf, hdy + pf]
         - ref: battery
           shift: [15, -18]
         - ref: mcu
           shift: [15, 10.5]
         - ref: mcu
           shift: [-15, 10.5]
+  _battery:
+    - what: polygon
+      points:
+        - ref: battery
+          shift: [-15, -30]
+        - ref: battery
+          shift: [15, -30]
+        - ref: mcu
+          shift: [15, 0]
+        - ref: mcu
+          shift: [-15, 10.5]
   pcb_fill:
+    - what: outline
+      name: _battery
+      fillet: pf + 0.5
     - what: outline
       name: _raw
       fillet: pf + 0.5
@@ -663,7 +682,7 @@ outlines:
       operation: subtract
     - _switch_outline_holes
 
-_cases: # remove underscore to create
+cases: # remove underscore to create
   _xiao_light_right:
     - what: outline
       name: _xiao_light_guide_right
