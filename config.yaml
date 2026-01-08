@@ -662,7 +662,6 @@ outlines:
       corner: 1
       operation: subtract
     - _switch_outline_holes
-    - -_bumpers
 
 _cases: # remove underscore to create
   _xiao_light_right:
