@@ -2,7 +2,7 @@ meta:
   engine: 4.2.1
   author: s.g.mcateer@gmail.com
   version: &version v0.1
-  repository: &repo 
+  repository: &repo https://github.com/smcateer/oolon
   
   # NB this is basically a hack of https://github.com/ctranstrum/lintilla by chad@transtrum.net
 
