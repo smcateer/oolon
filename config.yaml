@@ -26,7 +26,7 @@ units:
   hdy: dy / 2
 
   # pcb fillef
-  pf: 1
+  pf: 2
 points:
   zones:
     matrix:
@@ -223,10 +223,10 @@ outlines:
           shift: [2.5dx - pf, -hdy - pf]
         - ref: thumb_secondary_spot
           shift: [-hdx - pf, -hdy - pf]
-        - ref: thumb_primary_spot
-          shift: [-hdx - pf, -hdy - pf]
+        - ref: thumb_secondary_spot
+          shift: [hdx, -hdy - pf]
         - ref: thumb_reachy_spot
-          shift: [-hdx - pf, -hdy - pf]
+          shift: [-hdx, -hdy - pf]
         - ref: thumb_reachy_spot
           shift: [hdx + pf, -hdy - pf]
         - ref: battery
@@ -238,7 +238,7 @@ outlines:
   pcb_fill:
     - what: outline
       name: _raw
-      fillet: pf + 1.5
+      fillet: pf + 0.5
 
   # Underneath the board, including space for battery wires and solder
   # so that's why it's larger than it needs to be
@@ -664,7 +664,7 @@ outlines:
     - _switch_outline_holes
     - -_bumpers
 
-cases: # remove underscore to create
+_cases: # remove underscore to create
   _xiao_light_right:
     - what: outline
       name: _xiao_light_guide_right
@@ -839,10 +839,10 @@ cases: # remove underscore to create
       extrude: 1.6
       shift: [0, 0, 1.6]
       operation: subtract
-    - what: outline
-      name: _bumpers
-      extrude: 1
-      operation: subtract
+    # - what: outline
+    #   name: _bumpers
+    #   extrude: 1
+    #   operation: subtract
     - -_countersunk_screw
 
   bottom_right_reverse:
@@ -1113,7 +1113,7 @@ pcbs:
         adjust.shift: [0, -0.7dy]
         params:
           side: F
-          text: Lintilla
+          text: OOLON
           layer: Cu
           size: 3
           thickness: 0.5
@@ -1124,7 +1124,7 @@ pcbs:
         adjust.shift: [0, -0.7dy]
         params:
           side: B
-          text: Allitnil
+          text: NOLOO
           layer: Cu
           size: 3
           thickness: 0.5
