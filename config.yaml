@@ -1,7 +1,10 @@
 meta:
-  author: chad@transtrum.net
-  version: &version v1.0
-  repository: &repo https://github.com/ctranstrum/lintilla
+  engine: 4.2.1
+  author: s.g.mcateer@gmail.com
+  version: &version v0.1
+  repository: &repo 
+  
+  # NB this is basically a hack of https://github.com/ctranstrum/lintilla by chad@transtrum.net
 
   # Depending on where you are ordering from, uncomment or edit one of these:
   order_num_template: &order_text JLCJLCJLCJLC # for ordering from JLCpcb.com
@@ -9,19 +12,21 @@ meta:
   # order_num_template: &order_text ""   # remove the order number text completely
 
 units:
-  $default_spread: (u + cx) / 2
-  $default_padding: (u + cy) / 2
+  $default_spread: cx
+  $default_padding: cy
   $default_height: cy
   $default_width: cx
 
   # distance between keys
-  dx: (u + cx) / 2
-  dy: (u + cy) / 2
+  dx: cx
+  dy: cy
 
   # distance to the line between keys
   hdx: dx / 2
   hdy: dy / 2
 
+  # pcb fillef
+  pf: 1
 points:
   zones:
     matrix:
@@ -32,17 +37,17 @@ points:
       columns:
         outer:
           key:
-            splay: 12.5
             colpin: P4
           rows:
             bottom:
-              tags: [key, bumper_left]
+              tags: [key, bumper_bottom_left]
               rowpin: P2
             home:
               rowpin: P3
+              tags: [key, bumper_top_left]
         pinky:
           key:
-            stagger: -dx * 0.45
+            stagger: -dy * 0.33
             colpin: P8
           rows:
             bottom:
@@ -54,16 +59,9 @@ points:
             top:
               bind: 0
               rowpin: P3
-            fn:
-              orient: -10
-              shift: [0, 8.9]
-              bind: [0, 25, 20, 0]
-              tags: [key, bumper_left]
-              rowpin: P10
         ring:
           key:
-            stagger: dx * 0.66
-            splay: -5
+            stagger: 8.5
             colpin: P6
           rows:
             bottom:
@@ -74,9 +72,7 @@ points:
               rowpin: P10
         middle:
           key:
-            shift: [0.2, 0]
-            stagger: hdx
-            splay: -5
+            stagger: 6
             colpin: P9
           rows:
             bottom:
@@ -88,8 +84,7 @@ points:
               rowpin: P10
         index:
           key:
-            stagger: -hdx
-            splay: -2.5
+            stagger: -6
             colpin: P7
           rows:
             bottom:
@@ -100,7 +95,7 @@ points:
               rowpin: P10
         inner:
           key:
-            stagger: -dx / 6
+            stagger: 0.4dy
             colpin: P5
           rows:
             bottom:
@@ -108,10 +103,7 @@ points:
               rowpin: P2
             home:
               rowpin: P3
-            top:
-              bind: [0, 5, 5, 5]
-              rowpin: P10
-              tags: [key, bumper_right]
+              tags: [key, bumper_top_right]
 
     # thumb zone
     thumb:
@@ -120,32 +112,29 @@ points:
         rowpin: P1
       anchor:
         ref: matrix_index_bottom
-        shift: [0, -dy - 1.5]
+        shift: [0, -dy]
       columns:
-        tucky.rows.spot:
-          skip: true
         secondary.rows.spot:
-          splay: -15
           origin: [-cx / 2, -cy / 2]
           colpin: P9
           bind: [0, 1, 0, 0]
         primary.rows.spot:
-          splay: -15
+          splay: -12
           origin: [-cx / 2, -cy / 2]
           colpin: P7
           bind: [0, 1, 0, 1]
         reachy.rows.spot:
-          splay: -15
+          splay: -12
           origin: [-cx / 2, -cy / 2]
           colpin: P5
           bind: [0, 0, 0, 1]
-          tags: [key, bumper_right]
+          tags: [key, bumper_bottom_right]
 
     # component zones
     mcu:
       anchor:
-        ref: matrix_inner_top
-        shift: [26, 0]
+        ref: matrix_middle_top
+        shift: [24 + 2* dx, -2 + pf]
         #columns.xiao.rows.ble:
       key:
         tags: [mcu, component]
@@ -153,8 +142,8 @@ points:
 
     battery:
       anchor:
-        ref: matrix_inner_bottom
-        shift: [26, 1]
+        ref: matrix_middle_bottom
+        shift: [24 + 2*dx, -4 + pf]
         #columns.compartment.rows.cutout:
       key:
         tags: [battery, component]
@@ -163,61 +152,93 @@ points:
     reset_button:
       anchor:
         ref: matrix_index_top
-        shift: [-3, cy / 2]
+        shift: [-3, cy / 2 + 5]
       key:
         tags: [reset, component]
 
     power_button:
       anchor:
-        ref: matrix_inner_top
-        shift: [-3, cy / 2 + 0.05]
+        ref: matrix_inner_home
+        shift: [-3, cy / 2 + 5.05 + 0.6dy]
       key:
         tags: [power, component]
 
     screw_top_left:
       anchor:
-        ref: matrix_pinky_fn
-        shift: [hdx + 3, hdy - 3]
+        ref: matrix_pinky_top
+        shift: [-hdx - 3, hdy - 3]
       key:
         tags: [screw, hardware]
     screw_bottom_left:
       anchor:
         ref: matrix_pinky_bottom
-        shift: [hdx + 3, -hdy + 3]
+        shift: [-hdx - 3, -hdy + 3]
+      key:
+        tags: [screw, hardware]
+    screw_top_middle:
+      anchor:
+        ref: matrix_middle_top
+        shift: [hdx - 3, hdy - 3]
+      key:
+        tags: [screw, hardware]
+    screw_bottom_middle:
+      anchor:
+        ref: matrix_pinky_bottom
+        shift: [2dx, -hdy + 3]
       key:
         tags: [screw, hardware]
     screw_top_right:
       anchor:
-        ref: matrix_inner_top
-        shift: [hdx + 2, hdy - 3]
+        ref: matrix_middle_top
+        shift: [2.5dx, hdy - 3]
       key:
         tags: [screw, hardware]
     screw_bottom_right:
       anchor:
-        ref: thumb_primary_spot
-        shift: [hdx + 2, hdy]
+        ref: thumb_reachy_spot
+        shift: [hdx - 1, hdy - 2]
       key:
         tags: [screw, hardware]
 
 outlines:
   # Get the basic PCB outline
   _raw:
-    - what: rectangle
-      where: key
-      bound: true
-      corner: 3
-      size: [cx + 4, cy + 4]
-    - what: rectangle
-      where: mcu
-      size: [30, 21]
-    - what: rectangle
-      where: battery
-      size: [30, 60]
-      corner: 1
+    - what: polygon
+      points:
+        - ref: matrix_middle_top
+          shift: [hdx + pf, hdy + pf]
+        - ref: matrix_middle_top
+          shift: [-hdx - pf, hdy + pf]
+        - ref: matrix_ring_top
+          shift: [hdx - pf, hdy + pf]
+        - ref: matrix_ring_top
+          shift: [-hdx - pf, hdy + pf]
+        - ref: matrix_pinky_top
+          shift: [hdx - pf, hdy + pf]
+        - ref: matrix_pinky_top
+          shift: [-hdx - dx - pf, hdy + pf]
+        - ref: matrix_pinky_bottom
+          shift: [-hdx -dx - pf, -hdy - pf]
+        - ref: matrix_pinky_bottom
+          shift: [2.5dx - pf, -hdy - pf]
+        - ref: thumb_secondary_spot
+          shift: [-hdx - pf, -hdy - pf]
+        - ref: thumb_primary_spot
+          shift: [-hdx - pf, -hdy - pf]
+        - ref: thumb_reachy_spot
+          shift: [-hdx - pf, -hdy - pf]
+        - ref: thumb_reachy_spot
+          shift: [hdx + pf, -hdy - pf]
+        - ref: battery
+          shift: [15, -18]
+        - ref: mcu
+          shift: [15, 10.5]
+        - ref: mcu
+          shift: [-15, 10.5]
   pcb_fill:
     - what: outline
       name: _raw
-      fillet: 3
+      fillet: pf + 1.5
 
   # Underneath the board, including space for battery wires and solder
   # so that's why it's larger than it needs to be
@@ -519,21 +540,35 @@ outlines:
     - what: circle
       radius: 3.25
 
-  _bumpers_left:
+  _bumpers_top_left:
     - what: outline
       name: _bumper
-      where: bumper_left
-      adjust.shift: [-5.5, 5.5]
+      where: bumper_top_left
+      adjust.shift: [0, 16.5]
 
-  _bumpers_right:
+  _bumpers_top_right:
     - what: outline
       name: _bumper
-      where: bumper_right
-      adjust.shift: [5.5, 5.5]
+      where: bumper_top_right
+      adjust.shift: [0, 21]
+ 
+  _bumpers_bottom_left:
+    - what: outline
+      name: _bumper
+      where: bumper_bottom_left
+      adjust.shift: [0, -10.5]
+
+  _bumpers_bottom_right:
+    - what: outline
+      name: _bumper
+      where: bumper_bottom_right
+      adjust.shift: [5.5, -5]
 
   _bumpers:
-    - _bumpers_left
-    - _bumpers_right
+    - _bumpers_top_left
+    - _bumpers_top_right
+    - _bumpers_bottom_left
+    - _bumpers_bottom_right
 
   _hex_nut_angle:
     - what: rectangle
@@ -616,7 +651,20 @@ outlines:
       name: _power_model
       expand: 0.6
 
-cases:
+  pcb_outline_fancy:
+    - pcb_fill
+    - -_xiao_bottom_pads
+    - -_battery_cutout
+    - -_screw_outline
+    - what: rectangle
+      where: key
+      size: [17.5, 16.5]
+      corner: 1
+      operation: subtract
+    - _switch_outline_holes
+    - -_bumpers
+
+cases: # remove underscore to create
   _xiao_light_right:
     - what: outline
       name: _xiao_light_guide_right
@@ -903,7 +951,7 @@ pcbs:
       xiao_bat_pos_via_far:
         what: via
         where: matrix_inner_home
-        adjust.shift: [hdx -1.5, 1.25]
+        adjust.shift: [hdx -1.5, -11]
         params.net: BAT+
 
       xiao_reset_front:
@@ -1061,8 +1109,8 @@ pcbs:
 
       lintilla_name:
         what: text
-        where: matrix_middle_top
-        adjust.shift: [-dx - 2, hdy - 3]
+        where: matrix_middle_bottom
+        adjust.shift: [0, -0.7dy]
         params:
           side: F
           text: Lintilla
@@ -1072,8 +1120,8 @@ pcbs:
 
       allitnil_name:
         what: text
-        where: matrix_middle_top
-        adjust.shift: [-dx - 2, hdy - 3]
+        where: matrix_middle_bottom
+        adjust.shift: [0, -0.7dy]
         params:
           side: B
           text: Allitnil
@@ -1091,7 +1139,7 @@ pcbs:
         what: text
         where: battery
         adjust:
-          shift: [13.5, 10]
+          shift: [13.5, 12]
           rotate: 90
         params:
           text: *repo
@@ -1109,8 +1157,8 @@ pcbs:
 
       order_number:
         what: text
-        where: matrix_pinky_fn
-        adjust.shift: [0, -hdy - 1]
+        where: matrix_ring_bottom
+        adjust.shift: [0, -hdy -2]
         params:
           side: F
           text: *order_text
