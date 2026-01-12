@@ -11,3 +11,11 @@ Key differences (hehehe):
 (just hacking away at this stage and don't really know what I'm doing!!)
 
 ![Outline of keyboard](https://github.com/smcateer/oolon/blob/main/images/oolon.png)
+
+The motivation behind this design is to bring each finger's keys (almost) within 1U of their home key. I *hate* the up and right reaches to the inner and outer columms .. but I don't wan't to lose those colunms completely. This pic as an attempt to illustrate what I mean:
+
+![Outline of keyboard with distances](https://github.com/smcateer/oolon/blob/main/images/oolon%20key%20dastance.png)
+
+Dramatizing a bit ...
+
+![Outline of Corne with distances](https://github.com/smcateer/oolon/blob/main/images/corne%20reaching.png)
