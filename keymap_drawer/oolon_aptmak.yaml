@@ -1,0 +1,23 @@
+layout:
+  zmk_keyboard: oolon
+  layout_name: oolon_aptmak
+layers:
+  APTMAK:
+    - ["V", "W", "F", "P", "L", "U", "Y", "'"]
+    - ["Esc Lock", "R LGui", "S LAlt", "T LCtrl", "H LShft", "B", "J", "N LShft", "A LCtrl", "I LAlt", "O LGui", "-"]
+    - ["LGui", "OSM LShft", "C", "G", "D", "K", "X", "M", ",", ".", "OSM LShft", "@ :"]
+    - ["TAB Num", "E Nav", "Enter", "OSM Dubs", "Space Sym", "Bksp Fun"]
+  NUMBER:
+    - ["1", "2", "3", "4", "7", "8", "9", "0"]
+    - ["BT CLR", "BT 1", "BT 2", "BT 3", "BT 4", "BT 5", "Left", "Down", "Up", "Right", null, null]
+    - ["LShft", null, null, null, null, null, null, null, null, null, null, null]
+    - ["LGui", {type: held}, "Space", "Enter", null, "RAlt"]
+  SYMBOL:
+    - ["!", "@", "#", "$", "&", "*", "(", ")"]
+    - ["LCtrl", null, null, null, null, null, "-", "=", "[", "]", "\\", "`"]
+    - ["LShft", null, null, null, null, null, "_", "+", "{", "}", "|", "~"]
+    - ["LGui", null, "Space", "Enter", {type: held}, "RAlt"]
+
+combos:
+  - { tk: [G, D], k: Q, l: [APTMAK] }
+  - { tk: [M, ","], k: Z, l: [APTMAK] }
